@@ -158,8 +158,41 @@ def modify():
 
 
 def sort():
-    print('sort')
-
+    show()
+    if os.path.exists(file_name):
+        with open(file_name, 'r') as st_txt:
+            students = st_txt.readlines()
+        students_dict = []
+        for st in students:
+            d = dict(eval(st))
+            students_dict.append(d)
+    else:
+        print('there is no students info, back to main menu')
+        menu()
+        return
+    asc_or_desc = input('please input (0: ascent; 1 descent): ')
+    if asc_or_desc == '0':
+        asc_or_desc = True
+    elif asc_or_desc == '1':
+        asc_or_desc = False
+    else:
+        print('Wrong input, please select from main menu')
+        menu()
+        return
+    mode = input('please select sort by (1: Engling, 2: Python, 3: C, 0:total): ')
+    if mode == '1':
+        students_dict.sort(key=lambda x: x['english'], reverse=asc_or_desc)
+    elif mode == '2':
+        students_dict.sort(key=lambda x: x['python'], reverse=asc_or_desc)
+    elif mode == '3':
+        students_dict.sort(key=lambda x: x['c'], reverse=asc_or_desc)
+    elif mode == '0':
+        students_dict.sort(key=lambda x: x['english']+x['python']+x['c'], reverse=asc_or_desc)
+    else:
+        print('Wrong input, please select from main menu')
+        menu()
+        return
+    show_students(students_dict)
 
 def count():
     if os.path.exists(file_name):
